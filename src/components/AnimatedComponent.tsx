@@ -29,7 +29,9 @@ const AnimatedComponent: React.FC<AnimatedComponentProps> = ({
       if (action === "cancel") {
         animation.cancel();
       }
+
       const controls = {
+        animation,
         play: () => animation.play(),
         pause: () => animation.pause(),
         reset: () => {

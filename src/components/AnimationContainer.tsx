@@ -1,11 +1,31 @@
 import styled from "styled-components";
 import AnimatedComponent from "./AnimatedComponent";
+import { useAnimationControls } from "./AnimationController";
 
 const AnimationContainer = () => {
+  const { getControls } = useAnimationControls();
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.currentTarget;
+    const scrollY = element.scrollTop;
+    const headTitleAnimation = getControls("headTitle");
+
+    const maxScroll = element.scrollHeight - element.clientHeight;
+    const scrollFraction = scrollY / maxScroll;
+
+    if (headTitleAnimation) {
+      const maxAnimationTime = headTitleAnimation.animation.effect?.getTiming()
+        .duration as number;
+
+      if (scrollFraction <= 0.3) {
+        headTitleAnimation.animation.currentTime =
+          (scrollFraction / 0.3) * maxAnimationTime; // 0% ~ 30% 구간에서 애니메이션
+      } else {
+        headTitleAnimation.animation.currentTime = 0; // 애니메이션 중지
+      }
+    }
+  };
   return (
-    <Container
-    // onScroll={handleScroll}
-    >
+    <Container onScroll={handleScroll}>
       <Section>
         <Sticky>
           <AnimatedComponent
