@@ -2,6 +2,7 @@
 import React, { ReactNode, createContext, useContext, useRef } from "react";
 
 interface AnimationControls {
+  animation: Animation;
   play: () => void;
   pause: () => void;
   reset: () => void;

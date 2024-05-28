@@ -1,11 +1,44 @@
 import styled from "styled-components";
 import AnimatedComponent from "./AnimatedComponent";
+import { useAnimationControls } from "./AnimationController";
 
 const AnimationContainer = () => {
+  const { getControls } = useAnimationControls();
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.currentTarget;
+    const scrollY = element.scrollTop;
+    const headTitleAnimation = getControls("headTitle");
+    const headTitle2Animation = getControls("headTitle2");
+
+    const maxScroll = element.scrollHeight - element.clientHeight;
+    const scrollFraction = scrollY / maxScroll;
+
+    if (headTitleAnimation) {
+      const maxAnimationTime = headTitleAnimation.animation.effect?.getTiming()
+        .duration as number;
+
+      if (scrollFraction <= 0.3) {
+        headTitleAnimation.animation.currentTime =
+          (scrollFraction / 0.3) * maxAnimationTime;
+      } else {
+        headTitleAnimation.animation.currentTime = 0;
+      }
+    }
+
+    if (headTitle2Animation) {
+      const maxAnimationTime = headTitle2Animation.animation.effect?.getTiming()
+        .duration as number;
+
+      if (scrollFraction <= 0.6 && scrollFraction > 0.3) {
+        headTitle2Animation.animation.currentTime =
+          ((scrollFraction - 0.3) / 0.3) * maxAnimationTime;
+      } else {
+        headTitle2Animation.animation.currentTime = 0;
+      }
+    }
+  };
   return (
-    <Container
-    // onScroll={handleScroll}
-    >
+    <Container onScroll={handleScroll}>
       <Section>
         <Sticky>
           <AnimatedComponent
@@ -21,9 +54,16 @@ const AnimationContainer = () => {
             }}
             action="pause"
           >
-            <h1>우주다 우주!</h1>
+            <Fixed>
+              <Sticky>
+                <h1>우주다 우주!</h1>
+              </Sticky>
+            </Fixed>
           </AnimatedComponent>
         </Sticky>
+        <Background />
+      </Section>
+      <Section>
         <Sticky>
           <AnimatedComponent
             id="headTitle2"
@@ -34,7 +74,7 @@ const AnimationContainer = () => {
                 "translate3d(0, 0, 0)",
                 "translate3d(0, 0, 300px)"
               ],
-              offset: [0, 0.01, 1]
+              offset: [0, 0.04, 1]
             }}
             timing={{
               duration: 1000,
@@ -45,7 +85,6 @@ const AnimationContainer = () => {
             <h1>하핫</h1>
           </AnimatedComponent>
         </Sticky>
-        <Background />
       </Section>
     </Container>
   );
@@ -53,6 +92,9 @@ const AnimationContainer = () => {
 
 export default AnimationContainer;
 
+const Fixed = styled.div`
+  display: fixed;
+`;
 const Container = styled.div`
   height: 100vh;
   overflow-y: auto;
