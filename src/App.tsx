@@ -1,89 +1,79 @@
-import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import WithAnimation from "./components/WithAnimation";
 
 function App() {
-  const headTitleSectionRef = useRef<HTMLDivElement>(null);
-  const headTitle3SectionRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<Animation | null>(null);
-  const animation3Ref = useRef<Animation | null>(null);
+  // const animationRef = useRef<Animation | null>(null);
+  // const animation3Ref = useRef<Animation | null>(null);
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const element = e.currentTarget;
-    const scrollY = element.scrollTop;
+  // const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+  //   const element = e.currentTarget;
+  //   const scrollY = element.scrollTop;
 
-    const maxScroll = element.scrollHeight - element.clientHeight;
-    const scrollFraction = scrollY / maxScroll;
+  //   const maxScroll = element.scrollHeight - element.clientHeight;
+  //   const scrollFraction = scrollY / maxScroll;
 
-    if (animationRef.current) {
-      const maxAnimationTime = animationRef.current.effect.getTiming()
-        .duration as number;
+  //   if (animationRef.current) {
+  //     const maxAnimationTime = animationRef.current.effect.getTiming()
+  //       .duration as number;
 
-      if (scrollFraction <= 0.3) {
-        animationRef.current.currentTime =
-          (scrollFraction / 0.3) * maxAnimationTime; // 0% ~ 30% 구간에서 애니메이션
-      } else {
-        animationRef.current.currentTime = 0; // 애니메이션 중지
-      }
-    }
+  //     if (scrollFraction <= 0.3) {
+  //       animationRef.current.currentTime =
+  //         (scrollFraction / 0.3) * maxAnimationTime; // 0% ~ 30% 구간에서 애니메이션
+  //     } else {
+  //       animationRef.current.currentTime = 0; // 애니메이션 중지
+  //     }
+  //   }
 
-    if (animation3Ref.current) {
-      const maxAnimationTime3 = animation3Ref.current.effect.getTiming()
-        .duration as number;
-      if (scrollFraction > 0.3 && scrollFraction <= 0.5) {
-        animation3Ref.current.currentTime =
-          ((scrollFraction - 0.3) / 0.2) * maxAnimationTime3; // 30% ~ 50% 구간에서 애니메이션
-      } else {
-        animation3Ref.current.currentTime = 0; // 애니메이션 중지
-      }
-    }
-  };
-
-  useEffect(() => {
-    const headTitle = headTitleSectionRef.current;
-    const headTitle3 = headTitle3SectionRef.current;
-
-    if (headTitle3) {
-      const animation3 = headTitle3.animate(
-        {
-          opacity: [0, 1, 0],
-          transform: ["", "translate3d(0, 0, 0)", "translate3d(0, 0, 300px)"],
-          offset: [0, 0.01, 1]
-        },
-        {
-          duration: 1000,
-          fill: "forwards"
-        }
-      );
-      animation3.pause();
-      animation3Ref.current = animation3;
-    }
-
-    if (headTitle) {
-      const animation = headTitle.animate(
-        [
-          { opacity: 0 },
-          { transform: "translate3d(0, 0, 0)", opacity: 1 },
-          { transform: "translate3d(0, 0, 300px)", opacity: 0 }
-        ],
-        {
-          duration: 1000,
-          fill: "forwards"
-        }
-      );
-
-      animation.pause();
-      animationRef.current = animation;
-    }
-  }, []);
+  //   if (animation3Ref.current) {
+  //     const maxAnimationTime3 = animation3Ref.current.effect.getTiming()
+  //       .duration as number;
+  //     if (scrollFraction > 0.3 && scrollFraction <= 0.5) {
+  //       animation3Ref.current.currentTime =
+  //         ((scrollFraction - 0.3) / 0.2) * maxAnimationTime3; // 30% ~ 50% 구간에서 애니메이션
+  //     } else {
+  //       animation3Ref.current.currentTime = 0; // 애니메이션 중지
+  //     }
+  //   }
+  // };
 
   return (
-    <Container onScroll={handleScroll}>
+    <Container
+    // onScroll={handleScroll}
+    >
       <Section>
         <Sticky>
-          <h1 ref={headTitleSectionRef}>우주다 우주!</h1>
+          <WithAnimation
+            keyframes={[
+              { opacity: 0 },
+              { transform: "translate3d(0, 0, 0)", opacity: 1 },
+              { transform: "translate3d(0, 0, 300px)", opacity: 0 }
+            ]}
+            timing={{
+              duration: 1000,
+              fill: "forwards"
+            }}
+          >
+            <h1>우주다 우주!</h1>
+          </WithAnimation>
         </Sticky>
         <Sticky>
-          <h1 ref={headTitle3SectionRef}>하핫</h1>
+          <WithAnimation
+            keyframes={{
+              opacity: [0, 1, 0],
+              transform: [
+                "",
+                "translate3d(0, 0, 0)",
+                "translate3d(0, 0, 300px)"
+              ],
+              offset: [0, 0.01, 1]
+            }}
+            timing={{
+              duration: 1000,
+              fill: "forwards"
+            }}
+          >
+            <h1>하핫</h1>
+          </WithAnimation>
         </Sticky>
         <Background />
       </Section>
