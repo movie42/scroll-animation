@@ -7,7 +7,10 @@ const Home = () => {
       <Title>Animation Archive</Title>
       <List>
         <Item>
-          <Link to="first-start">FirstStart</Link>
+          <Link to="first-start">First Start</Link>
+        </Item>
+        <Item>
+          <Link to="parallax-scroll">Parallax Scroll</Link>
         </Item>
       </List>
     </Container>
