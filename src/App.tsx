@@ -1,12 +1,7 @@
-import AnimationContainer from "./components/AnimationContainer";
-import AnimationController from "./components/AnimationController";
+import Router from "./Router";
 
 function App() {
-  return (
-    <AnimationController>
-      <AnimationContainer />
-    </AnimationController>
-  );
+  return <Router />;
 }
 
 export default App;
