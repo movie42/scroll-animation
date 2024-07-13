@@ -12,6 +12,9 @@ const Home = () => {
         <Item>
           <Link to="parallax-scroll">Parallax Scroll</Link>
         </Item>
+        <Item>
+          <Link to="framer-motion-example">useScroll Example</Link>
+        </Item>
       </List>
     </Container>
   );
