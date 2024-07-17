@@ -15,6 +15,11 @@ const Home = () => {
         <Item>
           <Link to="framer-motion-example">useScroll Example</Link>
         </Item>
+        <Item>
+          <Link to="framer-motion-example-useTransform">
+            useTransform Example
+          </Link>
+        </Item>
       </List>
     </Container>
   );

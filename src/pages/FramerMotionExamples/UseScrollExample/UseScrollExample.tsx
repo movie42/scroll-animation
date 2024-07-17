@@ -6,6 +6,7 @@ const UseScrollExample = () => {
   const { scrollYProgress, scrollXProgress } = useScroll({
     // offset: ["start end", "end start"]
   });
+
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
